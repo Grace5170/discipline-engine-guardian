@@ -249,5 +249,102 @@
       </section>`;
   };
 
+
+  // Fairytale Guardian portrait collection
+  const portraitNames = [
+    "The Courageous Guardian",
+    "The Wise Guardian",
+    "The Steadfast Guardian",
+    "The Noble Guardian"
+  ];
+
+  const portraitImage = "guardian-portraits.jpg";
+
+  const originalHero = hero;
+
+  hero = function () {
+    const selected = Number.isInteger(data.hero.portrait)
+      ? data.hero.portrait
+      : (data.hero.presentation === "male" ? 2 : 0);
+
+    const html = originalHero();
+
+    const cards = portraitNames.map((name, index) => {
+      const x = index % 2;
+      const y = Math.floor(index / 2);
+
+      return `
+        <button type="button"
+          class="portrait-choice ${selected === index ? "selected" : ""}"
+          data-portrait="${index}">
+          <span class="portrait-crop"
+            style="background-image:url('${portraitImage}');
+                   background-size:200% 200%;
+                   background-position:${x * 100}% ${y * 100}%">
+          </span>
+          <strong>${name}</strong>
+        </button>`;
+    }).join("");
+
+    return html.replace(
+      '<div class="creator-grid">',
+      `<h3>Choose Your Illustrated Guardian</h3>
+       <div class="portrait-options">${cards}</div>
+       <div class="creator-grid">`
+    );
+  };
+
+  const oldBind = bind;
+
+  bind = function () {
+    oldBind();
+
+    document.querySelectorAll("[data-portrait]").forEach(button => {
+      button.onclick = () => {
+        data.hero.portrait = Number(button.dataset.portrait);
+        data.hero.presentation =
+          data.hero.portrait < 2 ? "female" : "male";
+        save();
+        render();
+      };
+    });
+  };
+
+  const portraitStyles = document.createElement("style");
+  portraitStyles.textContent = `
+    .portrait-options {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      margin:18px 0 25px;
+    }
+    .portrait-choice {
+      background:#20354a;
+      border:2px solid #536b7d;
+      border-radius:14px;
+      padding:9px;
+      color:#f5e5c6;
+      white-space:normal;
+      text-align:center;
+    }
+    .portrait-choice.selected {
+      border-color:#f2cb83;
+      box-shadow:0 0 0 2px #f2cb8333;
+    }
+    .portrait-crop {
+      display:block;
+      width:100%;
+      aspect-ratio:1;
+      background-repeat:no-repeat;
+      border-radius:9px;
+      margin-bottom:8px;
+    }
+    .portrait-choice strong {
+      font-size:.82rem;
+      line-height:1.3;
+      display:block;
+    }
+  `;
+  document.head.appendChild(portraitStyles);
   render();
 })();
