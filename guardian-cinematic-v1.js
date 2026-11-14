@@ -94,4 +94,73 @@
   } else {
     addCinematicScreen();
   }
+  // Cinematic Chapter I illustration
+  function addStoryIllustration() {
+    const screen = document.querySelector(".guardian-cinema");
+    if (!screen || screen.querySelector(".guardian-scene")) return;
+
+    const scene = document.createElement("div");
+    scene.className = "guardian-scene";
+
+    scene.innerHTML = `
+      <div class="guardian-scene-art">
+        <span class="guardian-scene-symbol">✦</span>
+      </div>
+      <p class="guardian-scene-caption">
+        Chapter I · The First Light
+      </p>
+    `;
+
+    const heading = screen.querySelector("h2");
+    if (heading) heading.after(scene);
+  }
+
+  const sceneStyles = document.createElement("style");
+  sceneStyles.textContent = `
+    .guardian-scene {
+      margin: 20px 0;
+    }
+
+    .guardian-scene-art {
+      min-height: 190px;
+      border-radius: 14px;
+      border: 1px solid #b9965e;
+      background:
+        radial-gradient(
+          circle at 50% 45%,
+          #b58b48 0%,
+          #3a4050 35%,
+          #111b2b 80%
+        );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .guardian-scene-symbol {
+      font-size: 76px;
+      color: #f6d58e;
+      text-shadow: 0 0 28px #e3a94c;
+    }
+
+    .guardian-scene-caption {
+      font-family: Georgia, serif;
+      font-style: italic;
+      color: #d9bf91;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+  `;
+  document.head.appendChild(sceneStyles);
+
+  // Wait until the welcome panel has been created.
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      addStoryIllustration
+    );
+  } else {
+    addStoryIllustration();
+  }
+
 })();
