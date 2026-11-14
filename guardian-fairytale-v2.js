@@ -346,5 +346,41 @@
     }
   `;
   document.head.appendChild(portraitStyles);
+
+  // Replace the simplified avatar with the selected fairytale portrait.
+  const previousHero = hero;
+
+  hero = function () {
+    const html = previousHero();
+    const selected = Number.isInteger(data.hero.portrait)
+      ? Math.max(0, Math.min(3, data.hero.portrait))
+      : (data.hero.presentation === "male" ? 2 : 0);
+
+    const x = (selected % 2) * 100;
+    const y = Math.floor(selected / 2) * 100;
+
+    const illustratedPortrait = `
+      <div role="img"
+        aria-label="Selected Fairytale Guardian portrait"
+        style="
+          width:100%;
+          aspect-ratio:1;
+          border-radius:12px;
+          background-image:url('guardian-portraits.jpg');
+          background-size:200% 200%;
+          background-position:${x}% ${y}%;
+          background-repeat:no-repeat;
+          border:2px solid #eac58a;
+        ">
+      </div>`;
+
+    return html.replace(
+      /\$\{portrait\(h\)\}/g,
+      illustratedPortrait
+    ).replace(
+      /<svg\b[^>]*>[\s\S]*?<\/svg>/,
+      illustratedPortrait
+    );
+  };
   render();
 })();
