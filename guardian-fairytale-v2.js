@@ -203,21 +203,7 @@
               ["male", "Male Guardian"]
             ])}
 
-            ${field("Hairstyle", "hairstyle", hairstyles)}
 
-            ${field("Hair color", "hair", [
-              ["dark", "Dark brown"],
-              ["light", "Golden blonde"],
-              ["red", "Auburn"],
-              ["silver", "Silver"]
-            ])}
-
-            ${field("Cloak color", "cloak", [
-              ["forest", "Forest green"],
-              ["crimson", "Crimson"],
-              ["midnight", "Midnight blue"],
-              ["violet", "Royal violet"]
-            ])}
 
             ${field("Guardian archetype",
               "appearance", archetypes)}
@@ -382,5 +368,5 @@
       illustratedPortrait
     );
   };
-  render();
+   render();
 })();
